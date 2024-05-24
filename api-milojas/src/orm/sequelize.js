@@ -9,4 +9,5 @@ sequelize.sync().then(() => {
     console.log('Os modelos foram sincronizados com o banco de dados');
 });
 
+
 module.exports = sequelize;

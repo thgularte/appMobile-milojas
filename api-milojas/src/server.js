@@ -1,29 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const pino = require('pino-http');
-const ORM = require('./orm/sequelize');
-const v1_router = require('./routes/router');
+const App = require('./app')
 
-class App {
-    constructor() {
-        this.server = express();
-        this.middlewares();
-        this.routes();
-        const DATABASE_URL = process.env.DATABASE_URL;
-        if (DATABASE_URL) {
-            this.orm = new ORM(DATABASE_URL);
-        }
-    }
+const PORT = process.env.PORT || 3001; // Define a porta onde a API irá escutar
+const app = new App(); // Crie uma instância da classe App
 
-    middlewares() {
-        this.server.use(express.json({ limit: "50mb" }));
-        this.server.use(cors());
-        this.server.use(pino({ level: "info", timestamp: true, enabled: true }));
-    }
-
-    routes() {
-        this.server.use('/v1', v1_router);
-    }
-}
-
-module.exports = App;
+app.server.listen(PORT, () => { // Inicie o servidor na porta definida
+    console.log(`Servidor rodando na porta ${PORT}`);
+});
